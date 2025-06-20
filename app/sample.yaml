@@ -1,0 +1,15 @@
+# This file is provided so that the application can be compiled using Twister,
+# the Zephyr testing tool. In this file, multiple combinations can be specified,
+# so that you can easily test all of them locally or in CI.
+flight_software:
+  description: Flight Software for PROVES Flight Boards
+  name: flight_software
+common:
+  build_only: true
+  integration_platforms:
+    - proves_flight_board_v5
+tests:
+  app.default: {}
+  app.debug:
+    extra_overlay_confs:
+      - debug.conf
