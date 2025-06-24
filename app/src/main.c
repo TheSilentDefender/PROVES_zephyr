@@ -16,7 +16,7 @@ static const struct device *usb_device;
 ZBUS_CHAN_DECLARE(sensor_data_chan);
 
 int get_sensor_data(struct sensor_data *data_out) {
-    struct sensor_data data;  // Local variable to hold value
+    struct sensor_data data;
 
     const int ret = zbus_chan_read(&sensor_data_chan, &data, K_MSEC(500));
     if (ret == 0) {
