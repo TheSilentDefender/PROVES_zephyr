@@ -1,0 +1,5 @@
+config SENSORS
+	bool "Support for sensors"
+	help
+	  This option enables the sensors on board
+	depends on ZBUS && SENSOR

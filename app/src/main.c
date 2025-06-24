@@ -8,28 +8,50 @@
 #include <zephyr/logging/log.h>
 #include <zephyr/usb/usb_device.h>
 #include <zephyr/drivers/uart.h>
+#include <app/lib/sensors.h>
 
 LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
 static const struct device *usb_device;
 
-int main(void)
-{
+ZBUS_CHAN_DECLARE(sensor_data_chan);
 
-	usb_device = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
+int get_sensor_data(struct sensor_data *data_out) {
+    struct sensor_data data;  // Local variable to hold value
 
-	if (usb_enable(NULL) != 0)
-	{
-		printk("Failed to enable USB\n");
-		return -1;
-	}
+    const int ret = zbus_chan_read(&sensor_data_chan, &data, K_MSEC(500));
+    if (ret == 0) {
+        memcpy(data_out, &data, sizeof(struct sensor_data));
+        return 0;
+    }
 
-	printk("USB Serial Initialized\n");
+    LOG_WRN("Failed to read sensor data from Zbus: %d", ret);
+    return ret;
+}
 
-	while (1)
-	{
-		printk("Current uptime: %lld ms\n", k_uptime_get());
-		k_sleep(K_MSEC(100));
-	}
+int main(void) {
+    usb_device = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 
-	return 0;
+    if (usb_enable(NULL) != 0) {
+        LOG_ERR("Failed to enable USB\n");
+        return -1;
+    }
+
+    LOG_INF("USB Serial Initialized\n");
+
+    if (sensor_manager_start() != 0) {
+        LOG_ERR("Failed to start sensor manager\n");
+        return -1;
+    }
+
+    struct sensor_data sensor_reading;
+
+    while (1) {
+        if (get_sensor_data(&sensor_reading) == 0) {
+            LOG_INF("Temp: %.1f°C, Accel Z: %.2f",
+                    sensor_reading.temp, sensor_reading.accel_z);
+        }
+        k_sleep(K_SECONDS(3));
+    }
+
+    return 0;
 }

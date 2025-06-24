@@ -17,3 +17,5 @@ manifest:
         name-allowlist:
           - cmsis_6
           - hal_rpi_pico
+          - hal_st
+          - loramac-node

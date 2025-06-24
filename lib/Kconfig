@@ -3,6 +3,6 @@
 
 menu "Custom libraries"
 
-rsource "custom/Kconfig"
+rsource "sensors/Kconfig"
 
 endmenu
