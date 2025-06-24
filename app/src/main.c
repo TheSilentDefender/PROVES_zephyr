@@ -48,7 +48,7 @@ int main(void) {
     while (1) {
         if (get_sensor_data(&sensor_reading) == 0) {
             LOG_INF("Temp: %.1f°C, Accel Z: %.2f",
-                    sensor_reading.temp, sensor_reading.accel_z);
+                    (double) sensor_reading.temp,(double) sensor_reading.accel_z);
         }
         k_sleep(K_SECONDS(3));
     }

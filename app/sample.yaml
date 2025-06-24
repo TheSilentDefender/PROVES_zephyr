@@ -1,0 +1,11 @@
+sample:
+  description: Flight Software for PROVES Flight Boards
+  name: flight_software
+
+common:
+  build_only: true
+  integration_platforms:
+    - proves_flight_board_v5/rp2350a/m33
+
+tests:
+  app.default: {}
