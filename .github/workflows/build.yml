@@ -45,7 +45,7 @@ jobs:
 #          fi
 #          west twister -T tests -v --inline-logs --integration $EXTRA_TWISTER_FLAGS
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: zephyr-uf2
           path: PROVES-zephyr/twister-out/proves_flight_board_v5_rp2350a_m33/zephyr/app.default/zephyr/zephyr.uf2
