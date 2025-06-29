@@ -114,4 +114,11 @@ zephyr_udc0: &usbd {
 		backup-switch-mode = "level";
 		label = "RV3028";
 	};
+	ina219: ina219@40 {
+		compatible = "ti,ina219";
+		reg = <0x40>;
+		shunt-milliohm = <2>;
+		lsb-microamp = <100>;
+		label = "INA219";
+	};
 };

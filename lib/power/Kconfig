@@ -1,0 +1,5 @@
+config POWER
+	bool "Support for on board power metering"
+	help
+	  This option enables the radios on board
+	depends on I2C && SENSOR && ZBUS

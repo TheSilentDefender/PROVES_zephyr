@@ -6,5 +6,6 @@ menu "Custom libraries"
 rsource "sensors/Kconfig"
 rsource "radio/Kconfig"
 rsource "rtc/Kconfig"
+rsource "power/Kconfig"
 
 endmenu
