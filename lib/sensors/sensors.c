@@ -11,7 +11,6 @@ LOG_MODULE_REGISTER(sensors, LOG_LEVEL_INF);
 static const struct device *lsm6dso_dev;
 static const struct device *lis2mdl_dev;
 
-// Thread control
 static k_tid_t sensor_thread_id;
 static K_THREAD_STACK_DEFINE(sensor_stack, 2048);
 static struct k_thread sensor_thread_data;

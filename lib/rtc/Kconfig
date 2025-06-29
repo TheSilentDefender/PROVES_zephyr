@@ -1,0 +1,5 @@
+config RTC_LIB
+	bool "Support for on board RV3028 RTC"
+	help
+	  This option enables the radios on board
+	depends on I2C && RTC_RV3028

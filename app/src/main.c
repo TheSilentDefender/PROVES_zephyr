@@ -3,12 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include <time.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/usb/usb_device.h>
 #include <zephyr/drivers/uart.h>
 #include <app/lib/sensors.h>
+#include <app/lib/radio.h>
+#include <app/lib/rtc.h>
 
 LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
 static const struct device *usb_device;
@@ -43,13 +46,28 @@ int main(void) {
         return -1;
     }
 
-    struct sensor_data sensor_reading;
+    if (lora_radio_start() != 0) {
+        LOG_ERR("Failed to start LoRa radio\n");
+        return -1;
+    }
 
+    if (rtc_init() != 0) {
+        LOG_ERR("Failed to initialize RTC\n");
+        return -1;
+    }
+
+    struct sensor_data sensor_reading;
+    struct rtc_time current_time;
     while (1) {
         if (get_sensor_data(&sensor_reading) == 0) {
             LOG_INF("Temp: %.1f°C, Accel Z: %.2f",
                     (double) sensor_reading.temp,(double) sensor_reading.accel_z);
-        }
+            lora_radio_send((uint8_t* )&sensor_reading, sizeof(sensor_reading));}
+        get_rtc(&current_time);
+        LOG_INF("Current RTC time: %04d-%02d-%02d %02d:%02d:%02d",
+                current_time.tm_year + 1900, current_time.tm_mon + 1,
+                current_time.tm_mday, current_time.tm_hour,
+                current_time.tm_min, current_time.tm_sec);
         k_sleep(K_SECONDS(3));
     }
 

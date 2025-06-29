@@ -1,4 +1,5 @@
-# Introduction
+# Introduction>>>>>>> Stashed changes
+
 
 This is the Doxygen documentation for [example-application].
 

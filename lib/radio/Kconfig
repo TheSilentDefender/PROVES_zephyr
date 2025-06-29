@@ -1,5 +1,5 @@
-config SENSORS
+config RADIO
 	bool "Support for radios"
 	help
-	  This option enables the sensors on board
+	  This option enables the radios on board
 	depends on ZBUS && LORA && SPI
