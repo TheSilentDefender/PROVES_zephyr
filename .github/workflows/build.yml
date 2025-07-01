@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: PROVES-zephyr
+          path: pysquared_zephyr
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,17 +27,17 @@ jobs:
       - name: Setup Zephyr project
         uses: zephyrproject-rtos/action-zephyr-setup@v1
         with:
-          app-path: PROVES-zephyr
+          app-path: pysquared_zephyr
           toolchains: arm-zephyr-eabi
 
       - name: Build firmware
-        working-directory: PROVES-zephyr
+        working-directory: pysquared_zephyr
         shell: bash
         run: |
           west twister -T app -v --inline-logs --integration
 
 #      - name: Twister Tests
-#        working-directory: PROVES-zephyr
+#        working-directory: pysquared_zephyr
 #        shell: bash
 #        run: |
 #          if [ "${{ runner.os }}" = "Windows" ]; then
@@ -48,4 +48,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: zephyr-uf2
-          path: PROVES-zephyr/twister-out/proves_flight_board_v5_rp2350a_m33/zephyr/app.default/zephyr/zephyr.uf2
+          path: pysquared_zephyr/twister-out/proves_flight_board_v5_rp2350a_m33/zephyr/app.default/zephyr/zephyr.uf2
