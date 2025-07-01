@@ -87,7 +87,7 @@ int main(void) {
         get_rtc(&current_time);
         if (get_power_data(&power_reading) == 0) {
             LOG_INF("Voltage: %.2fV, Current: %.2fA, Power: %.2fW",
-                    power_reading.voltage, power_reading.current, power_reading.power);
+                    (double)power_reading.voltage, (double)power_reading.current, (double)power_reading.power);
         } else {
             LOG_ERR("Failed to read power data");
         }
